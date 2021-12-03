@@ -56,56 +56,51 @@ class Day03(
 
 
     fun part2(): Any {
-        var filtered = inputLines
-        for (i in 0 .. filtered.first().lastIndex){
-            var num = 0
-            filtered.forEach {
-                if (it[i] == '1'){
-                    num++
-                }else{
-                    num--
-                }
-
-            }
-
-            val filteredNew = if (num >= 0){
-                //vic 1
-                filtered.filter { it[i]=='1' }
-            }else{
-                filtered.filter { it[i]=='0' }
-            }
-            filtered = filteredNew
-        }
-
-        val oxygen = filtered[0]
-        filtered = inputLines
-        for (i in 0 .. filtered.first().lastIndex){
-            var num = 0
-            filtered.forEach {
-                if (it[i] == '1'){
-                    num--
-                }else{
-                    num++
-                }
-
-            }
-
-            val filteredNew = if (num.absoluteValue==filtered.size){filtered}else if(num <= 0){
-                //vic 1
-                filtered.filter { it[i]=='0' }
-            }else{
-                filtered.filter { it[i]=='1' }
-            }
-            filtered = filteredNew
-        }
 
 
-        val co2 = filtered[0]
+        val oxygen = filter(false)
+
+        val co2 = filter(true)
 
         val co2I = co2.toInt(2)
         val oxygenI = oxygen.toInt(2)
 
 
         return oxygenI*co2I
+    }
+    fun filter(leastcommon : Boolean):String{
+        var filtered = inputLines
+        for (i in 0 .. filtered.first().lastIndex){
+            var numberOfOnes = 0
+            filtered.forEach {
+                if (it[i] == '1'){
+                    numberOfOnes++
+                }
+
+            }
+
+            val numOfZeros = filtered.size-numberOfOnes
+
+                    filtered = if (numberOfOnes == 0||numOfZeros==0){
+                filtered
+            } else if(numberOfOnes>=numOfZeros){
+                if (leastcommon){
+                    filtered.filter { it[i]=='0' }
+                }else{
+                    filtered.filter { it[i]=='1' }
+                }
+
+            } else{
+                if (leastcommon){
+                    filtered.filter { it[i]=='1' }
+                }else{
+                    filtered.filter { it[i]=='0' }
+                }
+            }
+
+        }
+
+        return filtered[0]
+
     }
 }
