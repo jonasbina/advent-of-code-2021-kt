@@ -81,7 +81,7 @@ class Day03(
 
             val numOfZeros = filtered.size-numberOfOnes
 
-                    filtered = if (numberOfOnes == 0||numOfZeros==0){
+            filtered = if (numberOfOnes == 0||numOfZeros==0){
                 filtered
             } else if(numberOfOnes>=numOfZeros){
                 if (leastcommon){
