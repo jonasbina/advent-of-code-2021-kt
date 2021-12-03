@@ -45,6 +45,7 @@ class Day03(
         var gnum = g.toInt(2)
         var enum = e.toInt(2)
 
+
         return 0
     }
 
