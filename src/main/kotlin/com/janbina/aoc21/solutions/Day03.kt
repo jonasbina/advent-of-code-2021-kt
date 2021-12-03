@@ -1,6 +1,7 @@
 package com.janbina.aoc20.solutions
 
 import com.janbina.aoc20.utils.Input
+import kotlin.math.absoluteValue
 
 fun main() {
     val input = Input.getDayInputLines(3)
@@ -22,10 +23,10 @@ class Day03(
     }
 
     fun part1(): Any {
-        var list = IntArray(inputLines.first().length)
+        val list = IntArray(inputLines.first().length)
         inputLines.forEach { line->
             line.forEachIndexed {i,c->
-                if (c.toInt() == 1){
+                if (c == '1'){
                     list[i]++
                 }
             }
@@ -33,7 +34,8 @@ class Day03(
         var g = ""
         var e = ""
         list.forEach {
-            if (it-inputLines.size < it){
+
+            if (it> inputLines.size/2){
                 g+='1'
                 e+='0'
             }else{
@@ -42,57 +44,68 @@ class Day03(
             }
 
         }
-        var gnum = g.toInt(2)
-        var enum = e.toInt(2)
+
+        val gnum = g.toInt(2)
+        val enum = e.toInt(2)
 
 
-        return 0
+        return gnum*enum
     }
 
 
 
 
     fun part2(): Any {
+        var filtered = inputLines
+        for (i in 0 .. filtered.first().lastIndex){
+            var num = 0
+            filtered.forEach {
+                if (it[i] == '1'){
+                    num++
+                }else{
+                    num--
+                }
 
-        return 0
+            }
+
+            val filteredNew = if (num >= 0){
+                //vic 1
+                filtered.filter { it[i]=='1' }
+            }else{
+                filtered.filter { it[i]=='0' }
+            }
+            filtered = filteredNew
+        }
+
+        val oxygen = filtered[0]
+        filtered = inputLines
+        for (i in 0 .. filtered.first().lastIndex){
+            var num = 0
+            filtered.forEach {
+                if (it[i] == '1'){
+                    num--
+                }else{
+                    num++
+                }
+
+            }
+
+            val filteredNew = if (num.absoluteValue==filtered.size){filtered}else if(num <= 0){
+                //vic 1
+                filtered.filter { it[i]=='0' }
+            }else{
+                filtered.filter { it[i]=='1' }
+            }
+            filtered = filteredNew
+        }
+
+
+        val co2 = filtered[0]
+
+        val co2I = co2.toInt(2)
+        val oxygenI = oxygen.toInt(2)
+
+
+        return oxygenI*co2I
     }
-//    var list = ArrayList< ArrayList<Int>>();
-//    inputLines.forEach {
-//        it.forEachIndexed { index,c->
-//            if (list.lastIndex >= index){
-//                list[index].add(c.toInt())
-//            }else{
-//                list.add(ArrayList<Int>())
-//                list[index].add(c.toInt())
-//            }
-//        }
-//    }
-
-//    var zero= 0
-//    var one= 0
-//    list.forEach {
-//        it.forEach{
-//            if (it == 48){
-//                zero++
-//            }else{
-//                one++
-//            }
-//        }
-//    }
-//    if (zero>one){
-//        grate = (grate.toString() +  z.toString()).toInt()
-//    }else{
-//        grate = (grate.toString() +  j.toString()).toInt()
-//
-//    }
-//    zero = 0
-//    one = 0
-//
-//    grate.toString().forEach {
-//        if (it.toInt() == 0){
-//            erate = (erate.toString() +  j.toString()).toInt()
-//        }else{
-//            erate = (erate.toString() +  z.toString()).toInt()
-//        }
-//    }
 }

@@ -4,13 +4,13 @@ import com.janbina.aoc20.utils.Input
 
 fun main() {
     val input = Input.getDayInputLines(1)
-    DayXX(input).also {
+    Day01(input).also {
         println(it.part1())
         println(it.part2())
     }
 }
 
-class DayXX(
+class Day0(
     private val inputLines: List<String>
 ) {
 
