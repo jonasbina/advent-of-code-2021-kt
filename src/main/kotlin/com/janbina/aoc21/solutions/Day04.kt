@@ -22,49 +22,22 @@ class Day04(
     }
 
     fun part1(): Any {
-        val cisla = ArrayList<Int>()
-        var tabule = ArrayList<ArrayList<MutableList<String>>>()
-        var newInput = inputLines
+//        val cisla = ArrayList<Int>()
+//        var tabule = ArrayList<ArrayList<MutableList<String>>>()
+//        var newInput = inputLines
         var firstVyherce = ArrayList<MutableList<String>>()
         var cisloPriVyhre = 0
-        inputLinesSplitted.forEach {
-            if (it.size >3){
-                it.forEach {
-                    cisla.add(it.toInt())
-                }
-            }
-        }
-         newInput= inputLines.drop(2)
-        var i = 0
+        val cisla = loadInput().numbers
+        val tabule = loadInput().board
 
-         newInput.forEach {
-             if (it !=""){
-             i++
-                 var list = mutableListOf<String>()
-                 list = it.split(' ') as MutableList<String>
-             if (it[0]==' '){
-              list.drop(1)
-             }
-             if (i == 1){
-                 tabule.add(ArrayList<MutableList<String>>())
-                 tabule[tabule.size-1].add(list)
-             }else{
-             if (i <6){
-                 tabule[if (tabule.size < 1){ 0}else{tabule.size-1}].add(list)
-             }else{
-                 tabule.add(ArrayList<MutableList<String>>())
-                 tabule[tabule.size-1].add(list)
-                 i==0
-             }
-         }
-         }
-         }
+
         cisla.forEach {
             tabule.forEach { tabulka->
                 tabulka.forEach { radek->
                     radek.forEachIndexed { ind,cislo->
                         if (cislo !=""){
-                        if (cislo.split('*').size!= 1){
+                            println("Cislo na spotu:"+cislo+" CISLO MOMENTALNI:"+it)
+                            if (cislo.split('*').size!= 1){
                             if (
                                 cislo.toInt() == it
                             ){
@@ -100,15 +73,7 @@ class Day04(
         if (pocetVRadku == 5){
             bool = true
         }
-        var diagonal = 0
-        tabulka.forEachIndexed {ind,radek->
-            if (radek[ind].split('*').isNotEmpty()){
-                diagonal++
-            }
-        }
-        if (diagonal == 5){
-            bool = true
-        }
+
         return bool
     }
     fun countScore(tabulka:ArrayList<MutableList<String>>,cisloPriBingu : Int):Int{
@@ -122,5 +87,51 @@ class Day04(
         }
         return sum*cisloPriBingu
     }
+    fun loadInput(): com.janbina.aoc20.solutions.Input {
+        val cisla = ArrayList<Int>()
+        var tabule = ArrayList<ArrayList<MutableList<String>>>()
+        var newInput = inputLines
+        inputLinesSplitted.forEach {
+            if (it.size >3){
+                it.forEach {
+                    cisla.add(it.toInt())
+                }
+            }
+        }
+        newInput= inputLines.drop(2)
+        var i = 0
+
+        newInput.forEach {
+            if (it !=""){
+                i++
+                var list = mutableListOf<String>()
+                list = it.split(' ') as MutableList<String>
+                if (it[0]==' '){
+                    list.drop(1)
+                }
+                if (i == 1){
+                    tabule.add(ArrayList<MutableList<String>>())
+                    tabule[tabule.size-1].add(list)
+                }else{
+                    if (i <6){
+                        tabule[if (tabule.size < 1){ 0}else{tabule.size-1}].add(list)
+                    }else{
+                        tabule.add(ArrayList<MutableList<String>>())
+                        tabule[tabule.size-1].add(list)
+                        i==0
+                    }
+                }
+    }
+
 
 }
+
+      return Input(numbers = cisla, board = tabule)
+    }
+
+}
+class Input(
+    val numbers:List<Int>,
+    val board:ArrayList<ArrayList<MutableList<String>>>
+
+)
