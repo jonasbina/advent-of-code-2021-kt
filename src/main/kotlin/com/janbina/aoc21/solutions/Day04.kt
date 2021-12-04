@@ -50,30 +50,26 @@ class Day04(
 
         return 0
     }
-    fun vyhral(radek:MutableList<String>,tabulka : ArrayList<MutableList<String>>):Boolean{
-        var bool = false
-        var pocetVRadku=0
-        radek.forEach{cislo->
-            if (cislo.split('*').isNotEmpty()){
-                pocetVRadku++
-            }
-        }
-        if (pocetVRadku == 5){
-            bool = true
-        }
 
-        return bool
-    }
-    fun countScore(tabulka:ArrayList<MutableList<String>>,cisloPriBingu : Int):Int{
-        var sum = 0
-        tabulka.forEach {
-            it.forEach { cislo->
-                if (cislo.split('*').isEmpty()){
-                    sum+=cislo.toInt()
-                }
+
+    fun countScore(numbersTillThis:List<Int>,board: ArrayList<MutableList<String>>):Int{
+        var score = 0
+
+            board.forEach {
+                it.forEach {
+                    var bool = false
+                        numbersTillThis.forEach { num->
+                            if (it.toInt() == num){
+                            bool=true
+                        }}
+                      if (!bool)
+                       score+=it.toInt()
+                    }
+
             }
-        }
-        return sum*cisloPriBingu
+
+        return score * numbersTillThis[numbersTillThis.lastIndex]
+
     }
     fun loadInput(): com.janbina.aoc20.solutions.Input {
         val cisla = ArrayList<Int>()
