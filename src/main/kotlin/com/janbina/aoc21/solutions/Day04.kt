@@ -31,28 +31,16 @@ class Day04(
         val tabule = loadInput().board
 
 
-        cisla.forEach {
+        cisla.forEachIndexed {ind,cislo->
             tabule.forEach { tabulka->
-                tabulka.forEach { radek->
-                    radek.forEachIndexed { ind,cislo->
-                        if (cislo !=""){
-                            println("Cislo na spotu:"+cislo+" CISLO MOMENTALNI:"+it)
-                            if (cislo.split('*').size!= 1){
-                            if (
-                                cislo.toInt() == it
-                            ){
-                            radek[ind] = "*"+cislo
-                            if (vyhral(radek,tabulka)){
-                                if (firstVyherce.isNotEmpty()){
-                                    firstVyherce = tabulka
-                                    cisloPriVyhre = it
-                                }
-                            }
-                            }
-                        }
-                    }
+                var list = ArrayList<Int>()
+                cisla.forEachIndexed { index, i ->
+                    if (index <= ind){
+                        list.add(cislo)
                     }
                 }
+
+                isBoardWin(list,tabulka)
             }
         }
          return countScore(firstVyherce,cisloPriVyhre)
@@ -127,6 +115,43 @@ class Day04(
 }
 
       return Input(numbers = cisla, board = tabule)
+    }
+    fun isBoardWin(numbersTillThis:List<Int>,board: ArrayList<MutableList<String>>):Boolean{
+
+        var won = false
+        board.forEach {
+            var rada = 0
+            it.forEachIndexed {ind,num->
+                numbersTillThis.forEach {number->
+                   if (number == num.toInt()){
+                       rada++
+                   }
+                }
+
+            }
+            if (rada == 5){
+               won = true
+            }
+
+        }
+        for (i in 0 .. board.lastIndex) {
+            var sloupec = 0
+            board.forEach {
+
+                    numbersTillThis.forEach {number->
+                        if (number == it[i].toInt()){
+                            sloupec++
+                        }
+                    }
+
+
+                if (sloupec == 5){
+                    won = true
+                }
+
+            }
+        }
+        return won
     }
 
 }
