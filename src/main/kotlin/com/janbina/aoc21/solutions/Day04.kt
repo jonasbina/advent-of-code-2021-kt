@@ -30,20 +30,10 @@ class Day04(
         val cisla = loadInput().numbers
         val tabule = loadInput().board
 
-
-        cisla.forEachIndexed {ind,cislo->
-            tabule.forEach { tabulka->
-                var list = ArrayList<Int>()
-                cisla.forEachIndexed { index, i ->
-                    if (index <= ind){
-                        list.add(cislo)
-                    }
-                }
-
-                isBoardWin(list,tabulka)
-            }
+        tabule.forEach { tabulka->
+            GameBoard(tabulka,cisla)
         }
-         return countScore(firstVyherce,cisloPriVyhre)
+        return
     }
 
     fun part2(): Any {
@@ -112,6 +102,17 @@ class Day04(
 
       return Input(numbers = cisla, board = tabule)
     }
+    fun GameBoard(board:ArrayList<MutableList<String>>,numbers: List<Int>):GameResult{
+         var numsTillThis = ArrayList<Int>()
+
+        numbers.forEach {
+            numsTillThis.add(it)
+            if (isBoardWin(numsTillThis,board)){
+                return GameResult(numsTillThis.size);
+            }
+        }
+
+    }
     fun isBoardWin(numbersTillThis:List<Int>,board: ArrayList<MutableList<String>>):Boolean{
 
         var won = false
@@ -155,4 +156,8 @@ class Input(
     val numbers:List<Int>,
     val board:ArrayList<ArrayList<MutableList<String>>>
 
+)
+class GameResult(
+    val turns:Int,
+    val score:Int
 )
