@@ -29,11 +29,17 @@ class Day04(
         var cisloPriVyhre = 0
         val cisla = loadInput().numbers
         val tabule = loadInput().board
-
+        var bestTurns = Int.MAX_VALUE
+        var scoreOfBest = 0
         tabule.forEach { tabulka->
-            GameBoard(tabulka,cisla)
+            val res = GameBoard(tabulka,cisla)
+            if (res.turns<bestTurns){
+                bestTurns=res.turns
+                scoreOfBest = res.score
+            }
         }
-        return
+        return scoreOfBest
+
     }
 
     fun part2(): Any {
@@ -49,12 +55,15 @@ class Day04(
                 it.forEach {
                     var bool = false
                         numbersTillThis.forEach { num->
+                            if (it !=""){
                             if (it.toInt() == num){
                             bool=true
+                            }
                         }}
                       if (!bool)
-                       score+=it.toInt()
-                    }
+                       if (it !=""){
+                          score+=it.toInt()
+                    }}
 
             }
 
@@ -108,10 +117,10 @@ class Day04(
         numbers.forEach {
             numsTillThis.add(it)
             if (isBoardWin(numsTillThis,board)){
-                return GameResult(numsTillThis.size);
+                return GameResult(numsTillThis.size,countScore(numsTillThis,board));
             }
         }
-
+        return GameResult(Int.MAX_VALUE,0)
     }
     fun isBoardWin(numbersTillThis:List<Int>,board: ArrayList<MutableList<String>>):Boolean{
 
@@ -120,8 +129,10 @@ class Day04(
             var rada = 0
             it.forEachIndexed {ind,num->
                 numbersTillThis.forEach {number->
-                   if (number == num.toInt()){
+                   if (num != ""){
+                    if (number == num.toInt()){
                        rada++
+                   }
                    }
                 }
 
@@ -136,8 +147,10 @@ class Day04(
             board.forEach {
 
                     numbersTillThis.forEach {number->
+                        if (it[i] != ""){
                         if (number == it[i].toInt()){
                             sloupec++
+                        }
                         }
                     }
 
