@@ -48,31 +48,32 @@ class Day04(
     }
 
 
-    fun countScore(numbersTillThis:List<Int>,board: ArrayList<MutableList<String>>):Int{
+    fun countScore(numbersTillThis:List<Int>,board: ArrayList<MutableList<Int>>):Int{
         var score = 0
-
+            println("NUMS TILL THIS :"+numbersTillThis)
+          println("TABULE "+board)
             board.forEach {
                 it.forEach {
                     var bool = false
                         numbersTillThis.forEach { num->
-                            if (it !=""){
+
                             if (it.toInt() == num){
                             bool=true
-                            }
+
                         }}
                       if (!bool)
-                       if (it !=""){
+
                           score+=it.toInt()
                     }}
 
-            }
+
 
         return score * numbersTillThis[numbersTillThis.lastIndex]
 
     }
     fun loadInput(): com.janbina.aoc20.solutions.Input {
         val cisla = ArrayList<Int>()
-        var tabule = ArrayList<ArrayList<MutableList<String>>>()
+        var tabule = ArrayList<ArrayList<MutableList<Int>>>()
         var newInput = inputLines
         inputLinesSplitted.forEach {
             if (it.size >3){
@@ -89,18 +90,20 @@ class Day04(
                 i++
                 var list = mutableListOf<String>()
                 list = it.split(' ') as MutableList<String>
+                var list2 = mutableListOf<Int>()
+                list2 = list as MutableList<Int>
                 if (it[0]==' '){
-                    list.drop(1)
+                    list2.drop(1)
                 }
                 if (i == 1){
-                    tabule.add(ArrayList<MutableList<String>>())
-                    tabule[tabule.size-1].add(list)
+                    tabule.add(ArrayList<MutableList<Int>>())
+                    tabule[tabule.size-1].add(list2)
                 }else{
                     if (i <6){
-                        tabule[if (tabule.size < 1){ 0}else{tabule.size-1}].add(list)
+                        tabule[if (tabule.size < 1){ 0}else{tabule.size-1}].add(list2)
                     }else{
-                        tabule.add(ArrayList<MutableList<String>>())
-                        tabule[tabule.size-1].add(list)
+                        tabule.add(ArrayList<MutableList<Int>>())
+                        tabule[tabule.size-1].add(list2)
                         i==0
                     }
                 }
@@ -108,10 +111,12 @@ class Day04(
 
 
 }
-
+      println("CISLA : "+cisla)
+        println("TABULE : "+tabule)
       return Input(numbers = cisla, board = tabule)
+
     }
-    fun GameBoard(board:ArrayList<MutableList<String>>,numbers: List<Int>):GameResult{
+    fun GameBoard(board:ArrayList<MutableList<Int>>,numbers: List<Int>):GameResult{
          var numsTillThis = ArrayList<Int>()
 
         numbers.forEach {
@@ -122,17 +127,16 @@ class Day04(
         }
         return GameResult(Int.MAX_VALUE,0)
     }
-    fun isBoardWin(numbersTillThis:List<Int>,board: ArrayList<MutableList<String>>):Boolean{
+    fun isBoardWin(numbersTillThis:List<Int>,board: ArrayList<MutableList<Int>>):Boolean{
 
         var won = false
         board.forEach {
             var rada = 0
             it.forEachIndexed {ind,num->
                 numbersTillThis.forEach {number->
-                   if (num != ""){
                     if (number == num.toInt()){
                        rada++
-                   }
+
                    }
                 }
 
@@ -147,11 +151,11 @@ class Day04(
             board.forEach {
 
                     numbersTillThis.forEach {number->
-                        if (it[i] != ""){
+
                         if (number == it[i].toInt()){
                             sloupec++
                         }
-                        }
+
                     }
 
 
@@ -167,7 +171,7 @@ class Day04(
 }
 class Input(
     val numbers:List<Int>,
-    val board:ArrayList<ArrayList<MutableList<String>>>
+    val board:ArrayList<ArrayList<MutableList<Int>>>
 
 )
 class GameResult(
